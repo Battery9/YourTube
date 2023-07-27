@@ -71,8 +71,8 @@ export default function VideoPage() {
 
               <div className="text-sm text-gray-200 mt-2">
                 {showFullDescription
-                  ? video?.description
-                  : `${video?.description?.substring(0, 200)}...`}
+                  ? <pre>{video?.description}</pre>
+                  : <pre className="line-clamp-2">{video?.description}</pre>}
                 {video?.description?.length > 200 && (
                   <button
                     className="text-blue-500 hover:underline"
