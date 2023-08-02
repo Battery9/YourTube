@@ -10,8 +10,8 @@ export default function LeftNavBar() {
 
   return (
     <div className="hidden md:block h-full w-48 bg-black absulate md:relative overflow-y-auto">
-      <div className="flex flex-col p-5 gap-6">
-        <div className="text-white flex items-center gap-2 text-sm cursor-pointer" onClick={() => {
+      <div className="flex flex-col gap-2">
+        <div className="text-white flex items-center gap-2 text-sm cursor-pointer p-3 hover:bg-red-400 rounded-lg" onClick={() => {
           setSelectedCatagory('New')
           navigate('/')
         }}>
@@ -20,7 +20,7 @@ export default function LeftNavBar() {
         </div>
         {categories.map((item) => {
             return (
-              <div className="text-white flex items-center gap-2 text-sm cursor-pointer" key={item.name} onClick={() => {
+              <div className="text-white flex items-center gap-2 text-sm cursor-pointer p-3 hover:bg-red-400 rounded-lg" key={item.name} onClick={() => {
                 selectedCatagory !== item.name && setSelectedCatagory(item.name)
                 navigate('/')
               }}>
@@ -28,11 +28,11 @@ export default function LeftNavBar() {
               </div>
             );
         })}
-        <div className="absolute bottom-5 flex flex-col gap-6">
+        <div className="absolute bottom-5 flex flex-col gap-2 w-full">
           <hr className="h-[2px] my-4 bg-gray-200 border-0 dark:bg-gray-700"></hr>
         {navMenuItems.map((item) => {
           return (
-            <div className="text-white flex items-center justify-items-end gap-2 text-sm cursor-pointer" key={item.name}>
+            <div className="text-white flex items-center justify-items-end gap-2 text-sm cursor-pointer p-3 hover:bg-red-400 rounded-lg" key={item.name}>
               <span className="text-lg">{item.icon}</span> {item.name} 
             </div>
           );

@@ -13,13 +13,14 @@ export default function VideoCard({ videos }) {
 
   return (
     <Link to={`video/${videos?.videoId}`}>
-      <div className="flex flex-col">
+      <div className="flex flex-col transform md:hover:scale-110 transition-all">
         <div className="relative h-48 md:h-40 overflow-hidden rounded-xl">
           <img
             src={videos?.thumbnail[0]?.url}
-            className="object-fill h-full w-full"
+            className="object-fill h-full w-full transition-opacity"
             alt={title}
           />
+          <img src={videos?.richThumbnail !== null ? videos?.richThumbnail[0]?.url : ""} alt={`Rich ${title}`} className="absolute object-fill h-full w-full transition-opacity opacity-0 hover:opacity-100 inset-0"/>
           <div className="absolute text-white bottom-2 right-2 bg-black/50 px-2 rounded-md">
             {videoLength}
           </div>

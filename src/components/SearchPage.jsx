@@ -25,14 +25,14 @@ function SearchPage() {
   return (
     <div className="bg-black text-white flex h-full overflow-x-hidden">
       <LeftNavBar />
-      <div className="h-[100%-3rem] w-full overflow-x-hidden m-9 mr-0 scrollbar-hide">
+      <div className="h-[100%-3rem] w-full overflow-x-hidden m-9">
         {!loading &&
           searchResult?.map((video) => {
             if (video?.type !== "video") return;
             return (
-              <div key={video?.videoId} className="flex my-4">
+              <div key={video?.videoId} className="flex hover:bg-red-900 p-3 flex-col sm:flex-row">
                 <Link to={`/video/${video?.videoId}`}>
-                  <div className="h-38 w-48 md:h-36 md:w-52 object-fill flex-shrink-0">
+                  <div className="sm:h-38 sm:w-48 md:h-36 md:w-52 object-fill flex-shrink-0">
                     <img
                       src={video?.thumbnail[0]?.url}
                       alt={video?.title}
@@ -42,7 +42,7 @@ function SearchPage() {
                 </Link>
                 <div className="ml-3">
                   <Link to={`/video/${video?.videoId}`}>
-                    <p className="line-clamp-2 md:line-clamp-1 md:text-lg font-medium">
+                    <p className="line-clamp-2 text-xl md:line-clamp-1 sm:text-lg font-medium mt-3">
                       {video?.title}
                     </p>
                     <p className="hidden md:block line-clamp-2 font-light">

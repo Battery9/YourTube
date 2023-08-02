@@ -70,9 +70,15 @@ export default function VideoPage() {
               </div>
 
               <div className="text-sm text-gray-200 mt-2">
-                {showFullDescription
-                  ? <pre>{video?.description}</pre>
-                  : <pre className="line-clamp-2">{video?.description}</pre>}
+                {showFullDescription ? (
+                  <pre className="whitespace-pre-wrap">
+                    {video?.description}
+                  </pre>
+                ) : (
+                  <pre className="line-clamp-2 whitespace-pre-wrap">
+                    {video?.description}
+                  </pre>
+                )}
                 {video?.description?.length > 200 && (
                   <button
                     className="text-blue-500 hover:underline"
@@ -87,13 +93,14 @@ export default function VideoPage() {
 
           <div className="lg:w-1/3 ml-2 w-full max-h-[86vh] overflow-y-scroll overflow-x-hidden scrollbar-hide mt-5 lg:mt-0">
             <div className="text-xl font-semibold mb-4 m-2">
+              {console.log(video)}
               Suggested Videos
             </div>
             {suggestion?.map((video) => {
               return (
                 <Link to={`/video/${video.videoId}`}>
                   <div
-                    className="flex flex-col md:flex-row mr-4"
+                    className="relative flex flex-col md:flex-row mr-4 hover:bg-red-900/70"
                     key={video?.videoId}
                   >
                     <img
@@ -101,6 +108,10 @@ export default function VideoPage() {
                       alt="thumbnail"
                       className="m-2 rounded-lg object-cover lg:w-[75%] md:w-52 md:h-36 lg:h-16 xl:h-24 xl:w-auto"
                     />
+
+                    <span className="absolute top-4 text-sm md:text-base md:top-auto md:bottom-3 left-4 bg-slate-700 px-1 rounded">
+                      {video?.lengthText ? video?.lengthText : "LIVE"}
+                    </span>
                     <div className="mt-2 text-sm mx-3 mb-3">
                       <p className="line-clamp-2 font-semibold">
                         {video?.title}
