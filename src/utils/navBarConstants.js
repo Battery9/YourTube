@@ -1,15 +1,13 @@
 import React from "react";
 
-import { AiFillHome, AiOutlineFlag } from "react-icons/ai";
-import { MdLocalFireDepartment, MdLiveTv } from "react-icons/md";
+import { AiOutlineFlag } from "react-icons/ai";
+import { MdWhatshot, MdLiveTv } from "react-icons/md";
 import { CgMusicNote } from "react-icons/cg";
 import { IoGameControllerSharp } from "react-icons/io5";
 import { ImNewspaper } from "react-icons/im";
-import { GiDiamondTrophy, GiEclipse } from "react-icons/gi";
+import { GiDiamondTrophy } from "react-icons/gi";
 import { RiLightbulbLine, RiFeedbackLine } from "react-icons/ri";
 import { FiSettings, FiHelpCircle } from "react-icons/fi";
-
-import { MdWhatshot } from "react-icons/md";
 
 export const categories = [
   { name: "Trending", icon: <MdWhatshot />, type: "category" },

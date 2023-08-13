@@ -29,28 +29,31 @@ code {
     scrollbar-width: none;  /* Firefox */
 }
 
-@keyframes loading {
-    from {
-        left: 50%;
-        width: 0;
-        z-index: 100;
+/* Spinner Animation */  
+  #container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  @keyframes animation {
+    0% {
+      stroke-dasharray: 1 98;
+      stroke-dashoffset: -105;
     }
-    33.3333% {
-        left: 0;
-        width: 100%;
-        z-index: 10;
+    50% {
+      stroke-dasharray: 80 10;
+      stroke-dashoffset: -160;
     }
-    to {
-        left: 0;
-        width: 100%;
+    100% {
+      stroke-dasharray: 1 98;
+      stroke-dashoffset: -300;
     }
-}
-
-.custom-h {
-    height: auto !important;
-}
-@media screen and (min-width: 1024px) {
-    .custom-h {
-        height: 100vh !important;
-    }
-}
+  }
+  
+  #spinner {
+    transform-origin: center;
+    animation-name: animation;
+    animation-duration: 1.2s;
+    animation-timing-function: cubic-bezier;
+    animation-iteration-count: infinite;
+  }

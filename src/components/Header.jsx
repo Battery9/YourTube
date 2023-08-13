@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import siteLogo from "../images/site-logo.png";
 import { MdSearch, MdVideoCall, MdCircleNotifications, MdAccountCircle } from "react-icons/md"
@@ -9,7 +9,7 @@ import Loader from "./Loader";
 
 export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
-  const { loading, mobileMenu, setMobileMenu } = useContext(Context);
+  const { loading } = useContext(Context);
 
   const navigate = useNavigate();
 
@@ -21,13 +21,6 @@ export default function Header() {
       navigate(`/search/${searchQuery}`);
     }
   };
-
-  const enableMobileMenu = () => {
-    setMobileMenu(!mobileMenu);
-  };
-
-  const { path } = useLocation();
-  const page = path?.split("/")?.filter(Boolean)?.[0];
 
   return (
     <div className="sticky flex flex-row h-12 items-center justify-between px-4 bg-slate-900">
@@ -41,7 +34,7 @@ export default function Header() {
           <div className="flex content-center items-center h-8 bg-gray-600 border border-zinc-400 rounded-full group-focus-within:border-red-400">
             <input type="text" value={searchQuery} className="bg-transparent h-full outline-none px-3 w-28 md:w-68 lg:w-[500px] text-white" placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value)} 
             onKeyUp={handleSearch}/>
-            <MdSearch className="text-white m-2 cursor-pointer"/>
+            <MdSearch className="text-white m-2 cursor-pointer" onClick={(event) => handleSearch("searchButton")} />
           </div>
       </div>
       <div className="flex items-center gap-1 md:gap-3 text-white text-xl md:text-2xl">

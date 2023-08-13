@@ -2,14 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function VideoCard({ videos }) {
-  const videoLength = videos?.lengthText
-    ? videos?.lengthText
-    : "LIVE";
+  function formatNumber(number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number >= 1000 && number < 1000000) {
+      return `${(number / 1000).toFixed(1)}K`;
+    } else if (number >= 1000000 && number < 1000000000) {
+      return `${(number / 1000000).toFixed(1)}M`;
+    } else {
+      return `${(number / 1000000000).toFixed(1)}B`;
+    }
+  }
+
+  const videoLength = videos?.lengthText ? videos?.lengthText : "LIVE";
   const title = videos?.title;
   const channelLogo = videos?.channelThumbnail[0]?.url;
   const channelName = videos?.channelTitle;
-  const views = videos?.viewCount
-  const uploadTime = videos?.publishedText
+  const views = formatNumber(videos?.viewCount);
+  const uploadTime = videos?.publishedText;
 
   return (
     <Link to={`video/${videos?.videoId}`}>
@@ -20,7 +30,15 @@ export default function VideoCard({ videos }) {
             className="object-fill h-full w-full transition-opacity"
             alt={title}
           />
-          <img src={videos?.richThumbnail !== null ? videos?.richThumbnail[0]?.url : ""} alt={`Rich ${title}`} className="absolute object-fill h-full w-full transition-opacity opacity-0 hover:opacity-100 inset-0"/>
+          <img
+            src={
+              videos?.richThumbnail !== null
+                ? videos?.richThumbnail[0]?.url
+                : ""
+            }
+            alt={`Rich ${title}`}
+            className="absolute object-fill h-full w-full transition-opacity opacity-0 hover:opacity-100 inset-0"
+          />
           <div className="absolute text-white bottom-2 right-2 bg-black/50 px-2 rounded-md">
             {videoLength}
           </div>
@@ -30,6 +48,7 @@ export default function VideoCard({ videos }) {
             <img
               className="h-full w-full rounded-full object-fit"
               src={channelLogo}
+              alt="channelLogo"
             />
           </div>
           <div className="ml-2 overflow-hidden">
@@ -38,7 +57,8 @@ export default function VideoCard({ videos }) {
             </span>
             <div className="text-white/80 text-xs">{channelName}</div>
             <div className="text-white/80 text-xs">
-              <span>{views} views</span> <span> • </span> <span>{uploadTime}</span>
+              <span>{views} views</span> <span> • </span>{" "}
+              <span>{uploadTime}</span>
             </div>
           </div>
         </div>

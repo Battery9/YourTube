@@ -3,14 +3,17 @@ import { useParams } from "react-router-dom";
 import { Context } from "../context/apiContext";
 import { fetchDownloadDataFromApi } from "../utils/downloadApi";
 import LeftNaBar from "./LeftNavBar";
+import MobileMenu from "./MobileMenu";
 import ReactPlayer from "react-player";
+import DownloadModal from "./DownloadModal";
 import { Link } from "react-router-dom";
+import { FiThumbsUp, FiDownload } from "react-icons/fi";
 
 export default function VideoPage() {
   const { id } = useParams();
   const [video, setVideo] = useState();
   const [suggestion, setSuggestion] = useState();
-  const { loading, setLoading } = useContext(Context);
+  const { setLoading } = useContext(Context);
 
   useEffect(() => {
     const fetchVideo = () => {
@@ -22,7 +25,8 @@ export default function VideoPage() {
       });
     };
     fetchVideo();
-  }, [id]);
+    document.title = `${video?.title} | YourTube`
+  }, [id, video?.title]);
 
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -30,10 +34,24 @@ export default function VideoPage() {
     setShowFullDescription(!showFullDescription);
   };
 
+  const [showModal, setShowModal] = useState(false)
+
+  function formatNumber(number) {
+    if (number < 1000) {
+      return number?.toString();
+    } else if (number >= 1000 && number < 1000000) {
+      return `${(number / 1000).toFixed(1)}K`;
+    } else if (number >= 1000000 && number < 1000000000) {
+      return `${(number / 1000000).toFixed(1)}M`;
+    } else {
+      return `${(number / 1000000000).toFixed(1)}B`;
+    }
+  }
+
   return (
     <div className="bg-black flex h-full text-white overflow-x-hidden">
-      {console.log(video)}
       <LeftNaBar />
+      <MobileMenu />
       <div className="h-[calc(100%-3rem)] md:w-[calc(100%-6rem)] mt-6 px-4 overflow-x-hidden scrollbar-hide">
         <div className="flex lg:flex-row flex-col p-2">
           <div className="lg:w-2/3">
@@ -63,10 +81,16 @@ export default function VideoPage() {
                     {video?.subscriberCountText}
                   </p>
                 </div>
+                <div className="flex items-center ml-5 font-semibold md:ml-16 px-1 bg-slate-100 text-black rounded gap-1">
+                <FiThumbsUp /> <p>{formatNumber(video?.likeCount)}</p>
+                </div>
+                <div className="flex items-center ml-3 font-semibold px-1 bg-slate-100 text-black rounded gap-1 cursor-pointer" onClick={() => setShowModal(true)}>
+                <FiDownload /> <p>Download</p>
+                </div>
               </div>
 
               <div className="text-sm font-medium text-gray-200 mt-2">
-                {video?.viewCount} views • {video?.likeCount} likes
+                {formatNumber(video?.viewCount)} views • Published on {video?.uploadDate}
               </div>
 
               <div className="text-sm text-gray-200 mt-2">
@@ -93,12 +117,11 @@ export default function VideoPage() {
 
           <div className="lg:w-1/3 ml-2 w-full max-h-[86vh] overflow-y-scroll overflow-x-hidden scrollbar-hide mt-5 lg:mt-0">
             <div className="text-xl font-semibold mb-4 m-2">
-              {console.log(video)}
               Suggested Videos
             </div>
             {suggestion?.map((video) => {
               return (
-                <Link to={`/video/${video.videoId}`}>
+                <Link to={`/video/${video.videoId}`} key={video?.videoId}>
                   <div
                     className="relative flex flex-col md:flex-row mr-4 hover:bg-red-900/70"
                     key={video?.videoId}
@@ -120,7 +143,7 @@ export default function VideoPage() {
                       <p>
                         {video?.viewCount === null || video?.viewCount === 0
                           ? "No views"
-                          : video?.viewCount + " views"}{" "}
+                          : formatNumber(video?.viewCount) + " views"}{" "}
                         •{" "}
                         {video?.publishedTimeText !== null
                           ? video?.publishedTimeText
@@ -134,6 +157,7 @@ export default function VideoPage() {
           </div>
         </div>
       </div>
+      <DownloadModal visible={showModal} onClose={() => setShowModal(false)} id={id}/>
     </div>
   );
 }

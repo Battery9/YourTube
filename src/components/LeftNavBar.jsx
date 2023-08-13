@@ -5,7 +5,7 @@ import { MdOutlineHome } from "react-icons/md";
 import { Context } from "../context/apiContext";
 
 export default function LeftNavBar() {
-  const { selectedCatagory, setSelectedCatagory, mobileMenu } = useContext(Context)
+  const { selectedCatagory, setSelectedCatagory } = useContext(Context)
   const navigate = useNavigate()
 
   return (

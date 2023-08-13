@@ -3,6 +3,7 @@ import { Context } from "../context/apiContext";
 import { useParams } from "react-router-dom";
 import { fetchDataFromApi } from "../utils/rapidApi";
 import LeftNavBar from "./LeftNavBar";
+import MobileMenu from "./MobileMenu";
 import { Link } from "react-router-dom";
 
 function SearchPage() {
@@ -12,6 +13,7 @@ function SearchPage() {
 
   useEffect(() => {
     searchData();
+    document.title = `Search - ${query} | YourTube`
   }, [query]);
 
   const searchData = () => {
@@ -22,13 +24,26 @@ function SearchPage() {
     });
   };
 
+  function formatNumber(number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number >= 1000 && number < 1000000) {
+      return `${(number / 1000).toFixed(1)}K`;
+    } else if (number >= 1000000 && number < 1000000000) {
+      return `${(number / 1000000).toFixed(1)}M`;
+    } else {
+      return `${(number / 1000000000).toFixed(1)}B`;
+    }
+  }
+
   return (
     <div className="bg-black text-white flex h-full overflow-x-hidden">
       <LeftNavBar />
+      <MobileMenu />
       <div className="h-[100%-3rem] w-full overflow-x-hidden m-9">
         {!loading &&
           searchResult?.map((video) => {
-            if (video?.type !== "video") return;
+            if (video?.type !== "video") return '';
             return (
               <div key={video?.videoId} className="flex hover:bg-red-900 p-3 flex-col sm:flex-row">
                 <Link to={`/video/${video?.videoId}`}>
@@ -49,7 +64,7 @@ function SearchPage() {
                       {video?.description}
                     </p>
                     <p className="text-sm">
-                      {video?.viewCount} - {video?.publishedText}
+                      {formatNumber(video?.viewCount)} views - {video?.publishedText}
                     </p>
                   </Link>
                   <div className="flex ml-2 mt-2 gap-2 items-center">
